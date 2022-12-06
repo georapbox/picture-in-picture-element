@@ -37,7 +37,33 @@ class PictureInPicture extends HTMLElement {
     }
   }
 
+  static get observedAttributes() {
+    return ['pip-button-title'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'pip-button-title' && oldValue !== newValue) {
+      const pipButton = this.shadowRoot.querySelector('.pip-button');
+
+      if (newValue) {
+        pipButton?.setAttribute('title', newValue);
+      } else {
+        pipButton?.removeAttribute('title');
+      }
+    }
+  }
+
+  get pipButtonTitle() {
+    return this.getAttribute('pip-button-title');
+  }
+
+  set pipButtonTitle(value) {
+    this.setAttribute('pip-button-title', value);
+  }
+
   connectedCallback() {
+    this.#upgradeProperty('pipButtonTitle');
+
     const pipButton = this.shadowRoot.querySelector('.pip-button');
     const videoSlot = this.shadowRoot.getElementById('videoSlot');
     const videoElement = this.#getVideoElement();
@@ -75,8 +101,6 @@ class PictureInPicture extends HTMLElement {
   }
 
   #onVideoSlotChange = () => {
-    console.log('Video slot changed');
-
     const pipButton = this.shadowRoot.querySelector('.pip-button');
     const videoElement = this.#getVideoElement();
 
@@ -148,6 +172,20 @@ class PictureInPicture extends HTMLElement {
       });
     }
   };
+
+  /**
+   * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
+   * This is to safe guard against cases where, for instance, a framework may have added the element to the page and set a
+   * value on one of its properties, but lazy loaded its definition. Without this guard, the upgraded element would miss that
+   * property and the instance property would prevent the class property setter from ever being called.
+   */
+  #upgradeProperty(prop) {
+    if (Object.prototype.hasOwnProperty.call(this, prop)) {
+      const value = this[prop];
+      delete this[prop];
+      this[prop] = value;
+    }
+  }
 
   static defineCustomElement(elementName = 'picture-in-picture') {
     if (typeof window !== 'undefined' && !window.customElements.get(elementName)) {

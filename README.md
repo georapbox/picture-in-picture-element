@@ -48,6 +48,12 @@ By default, the component is style-free to remain as less opinionated as possibl
 
 ## API
 
+### Properties
+
+| Name | Reflects | Type | Required | Description |
+| ---- | -------- | ---- | -------- |----------- |
+| `pipButtonTitle`<br>*`pip-button-title`* | ✓ | String | - | The `title` attribute of the the picture-in-picture button. |
+
 ### Slots
 
 | Name | Description |
