@@ -1,6 +1,6 @@
 {
   "name": "@georapbox/picture-in-picture-element",
-  "version": "3.1.0",
+  "version": "1.0.0",
   "description": "A custom element that offers a declarative interface to the Picture-in-Picture API.",
   "main": "dist/picture-in-picture.js",
   "module": "dist/picture-in-picture.js",

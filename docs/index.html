@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>&lt;picture-in-picture&gt;</title>
   <meta name="description" content="A custom element that offers a declarative interface to the Picture-in-Picture API.">
+  <meta name="color-scheme" content="light dark">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="stylesheet" href="lib/highlight/highlight-github-dark.min.css">
   <link rel="stylesheet" href="css/water.css">
   <link rel="stylesheet" href="css/main.css">
-  <script type="module" src="js/main.js"></script>
 </head>
 <body>
   <div class="container">
@@ -19,20 +20,42 @@
 
     <h2>Demo</h2>
 
+    <input type="checkbox" id="customize" name="customize" autocomplete="off">
+    <label for="customize">Customize component</label>
+
     <picture-in-picture>
       <video src="assets/bigbuckbunny.mp4" controls></video>
     </picture-in-picture>
-
-    <button id="create">Create</button>
-    <div id="view"></div>
 
     <small>
       <a href="https://peach.blender.org/download/">Video by Blender</a> - <a href="https://peach.blender.org/about/">Licensed CC-BY 3.0</a>
     </small>
 
-    <pre><code id="console"></code></pre>
-
     <h2>Source</h2>
+
+    <h3>HTML</h3>
+
+<pre><code id="html-source" class="language-html"></code></pre>
+
+    <h3>CSS</h3>
+
+<pre><code class="language-css">picure-in-picture.custom-styles::part(pip-button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  cursor: pointer;
+  appearance: none;
+}
+
+picture-in-picture.custom-styles::part(pip-button):hover {
+  background-color: #000000;
+}
+</code></pre>
 
     <p>
       Source code and documentation can be found in <a href="https://github.com/georapbox/picture-in-picture-element" target="_blank" rel="noreferrer noopener">Github repository</a>.
@@ -44,5 +67,9 @@
       <a href="https://georapbox.mit-license.org/@2022" target="_blank" rel="noreferrer noopener">The MIT License (MIT)</a>
     </p>
   </div>
+
+  <script src="lib/highlight/highlight.min.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

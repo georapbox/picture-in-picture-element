@@ -22,6 +22,21 @@
   border: 0;
 }
 
-picture-in-picture {
-  margin-bottom: 0.5rem;
+picture-in-picture.custom-styles::part(pip-button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(1px);
+  color: #ffffff;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+picture-in-picture.custom-styles::part(pip-button):hover {
+  background-color: #000000;
 }
