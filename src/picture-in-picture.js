@@ -66,12 +66,6 @@ class PictureInPicture extends HTMLElement {
 
     const pipButton = this.shadowRoot.querySelector('.pip-button');
     const videoSlot = this.shadowRoot.getElementById('videoSlot');
-    const videoElement = this.#getVideoElement();
-
-    if ('pictureInPictureEnabled' in document && videoElement) {
-      pipButton.hidden = false;
-      pipButton.disabled = false;
-    }
 
     pipButton?.addEventListener('click', this.#togglePictureInPicture);
     videoSlot?.addEventListener('slotchange', this.#onVideoSlotChange);
@@ -104,7 +98,7 @@ class PictureInPicture extends HTMLElement {
     const pipButton = this.shadowRoot.querySelector('.pip-button');
     const videoElement = this.#getVideoElement();
 
-    if (videoElement) {
+    if ('pictureInPictureEnabled' in document && videoElement) {
       pipButton.hidden = false;
       pipButton.disabled = false;
       videoElement.addEventListener('enterpictureinpicture', this.#onEnterPictureInPicture);
