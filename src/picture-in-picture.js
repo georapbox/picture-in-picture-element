@@ -43,7 +43,7 @@ class PictureInPicture extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'pip-button-title' && oldValue !== newValue) {
-      const pipButton = this.shadowRoot.querySelector('.pip-button');
+      const pipButton = this.#getPipButton();
 
       if (newValue) {
         pipButton?.setAttribute('title', newValue);
@@ -64,16 +64,16 @@ class PictureInPicture extends HTMLElement {
   connectedCallback() {
     this.#upgradeProperty('pipButtonTitle');
 
-    const pipButton = this.shadowRoot.querySelector('.pip-button');
-    const videoSlot = this.shadowRoot.getElementById('videoSlot');
+    const pipButton = this.#getPipButton();
+    const videoSlot = this.#getVideoSlot();
 
     pipButton?.addEventListener('click', this.#togglePictureInPicture);
     videoSlot?.addEventListener('slotchange', this.#onVideoSlotChange);
   }
 
   disconnectedCallback() {
-    const pipButton = this.shadowRoot.querySelector('.pip-button');
-    const videoSlot = this.shadowRoot.getElementById('videoSlot');
+    const pipButton = this.#getPipButton();
+    const videoSlot = this.#getVideoSlot();
     const videoElement = this.#getVideoElement();
 
     pipButton?.removeEventListener('click', this.#togglePictureInPicture);
@@ -82,8 +82,16 @@ class PictureInPicture extends HTMLElement {
     videoElement?.removeEventListener('leavepictureinpicture', this.#onLeavePictureInPicture);
   }
 
+  #getPipButton() {
+    return this.shadowRoot.querySelector('.pip-button');
+  }
+
+  #getVideoSlot() {
+    return this.shadowRoot.getElementById('videoSlot');
+  }
+
   #getVideoElement() {
-    const videoSlot = this.shadowRoot.getElementById('videoSlot');
+    const videoSlot = this.#getVideoSlot();
 
     if (!videoSlot) {
       return null;
@@ -95,7 +103,7 @@ class PictureInPicture extends HTMLElement {
   }
 
   #onVideoSlotChange = () => {
-    const pipButton = this.shadowRoot.querySelector('.pip-button');
+    const pipButton = this.#getPipButton();
     const videoElement = this.#getVideoElement();
 
     if ('pictureInPictureEnabled' in document && videoElement) {
@@ -115,7 +123,7 @@ class PictureInPicture extends HTMLElement {
       composed: true,
       detail: {
         videoElement: this.#getVideoElement(),
-        pipButton: this.shadowRoot.querySelector('.pip-button')
+        pipButton: this.#getPipButton()
       }
     }));
   };
@@ -126,7 +134,7 @@ class PictureInPicture extends HTMLElement {
       composed: true,
       detail: {
         videoElement: this.#getVideoElement(),
-        pipButton: this.shadowRoot.querySelector('.pip-button')
+        pipButton: this.#getPipButton()
       }
     }));
   };
@@ -167,12 +175,6 @@ class PictureInPicture extends HTMLElement {
     }
   };
 
-  /**
-   * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
-   * This is to safe guard against cases where, for instance, a framework may have added the element to the page and set a
-   * value on one of its properties, but lazy loaded its definition. Without this guard, the upgraded element would miss that
-   * property and the instance property would prevent the class property setter from ever being called.
-   */
   #upgradeProperty(prop) {
     if (Object.prototype.hasOwnProperty.call(this, prop)) {
       const value = this[prop];
