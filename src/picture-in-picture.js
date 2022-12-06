@@ -5,7 +5,7 @@ const html = String.raw;
 template.innerHTML = html`
   <style>
     :host {
-      display: inline-block;
+      display: inline-flex;
       position: relative;
     }
     :host([hidden]),
@@ -129,7 +129,17 @@ class PictureInPicture extends HTMLElement {
         }));
       });
     } else if (!document.pictureInPictureElement && document.pictureInPictureEnabled) {
-      videoElement?.requestPictureInPicture().catch(error => {
+      videoElement?.requestPictureInPicture().then(pipWindow => {
+        pipWindow.onresize = evt => {
+          const { width, height } = evt.currentTarget;
+
+          this.dispatchEvent(new CustomEvent('picture-in-picture:resize', {
+            bubbles: true,
+            composed: true,
+            detail: { width, height }
+          }));
+        };
+      }).catch(error => {
         this.dispatchEvent(new CustomEvent('picture-in-picture:error', {
           bubbles: true,
           composed: true,

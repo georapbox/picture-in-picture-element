@@ -77,6 +77,7 @@ By default, the component is style-free to remain as less opinionated as possibl
 | ---- | ----------- | ------------ |
 | `picture-in-picture:enter` | Emitted when the `HTMLVideoElement` enters picture-in-picture mode successfully. | `{ videoElement: HTMLVideoElement, pipButton: HTMLButtonElement }` |
 | `picture-in-picture:leave` | Emitted when the `HTMLVideoElement` leaves picture-in-picture mode successfully. | `{ videoElement: HTMLVideoElement, pipButton: HTMLButtonElement }` |
+| `picture-in-picture:resize` | Emitted when the floating video window has been resized. | `{ width: Number, height: Number }` |
 | `picture-in-picture:error` | Emitted when an error occurs. An error might occur while requesting to enter or leave picture-in-picture mode because the `HTMLVideoElement` has `disablePictureInPicture` attribute. | `{ error: DOMException }` |
 
 ## Changelog
