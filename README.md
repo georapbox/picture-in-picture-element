@@ -7,7 +7,7 @@
 
 # &lt;picture-in-picture&gt;
 
-A custom element that offers a declarative interface to the [Picture-in-Picture API](https://developer.mozilla.org/docs/Web/API/Picture-in-Picture_API).
+A custom element that offers a declarative interface to the [Picture-in-Picture API](https://developer.mozilla.org/docs/Web/API/Picture-in-Picture_API). It wraps an `HTMLVideoElement` and if Picture-in-Picture API is supported, it displays a button to toggle picture-in-picture mode. If the API is not supported, the button will remain hidden.
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -44,7 +44,7 @@ import './node_modules/@georapbox/picture-in-picture-element/dist/picture-in-pic
 
 ### Style
 
-By default, the component is style-free to remain as less opinionated as possible. However, you can style the various elements of the component using the `::part()` CSS pseudo-elements provided for this purpose. Below are demonstrated all available parts for styling.
+By default, the component comes with the bare minimum styles to remain as less opinionated as possible. However, you can style the various elements of the component using the `::part()` CSS pseudo-elements provided for this purpose.
 
 ## API
 
@@ -67,7 +67,7 @@ By default, the component is style-free to remain as less opinionated as possibl
 <picture-in-picture>
   <video src="assets/bigbuckbunny.mp4" controls></video>
 
-  <span slot="pip-button-label">Enter Picture-In-Picture mode</span>
+  <span slot="pip-button-label">Enter Picture-in-Picture mode</span>
 </picture-in-picture>
 ```
 

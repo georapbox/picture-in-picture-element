@@ -47,7 +47,7 @@ import(componentUrl).then(res => {
       const span = document.createElement('span');
       span.slot = 'pip-button-label';
       span.innerHTML = slotContent;
-      wc.setAttribute('pip-button-title', 'Picture-In-Picture');
+      wc.setAttribute('pip-button-title', 'Picture-in-Picture');
       wc.appendChild(span);
     } else {
       slotTemplate = videoContent;
@@ -62,7 +62,7 @@ import(componentUrl).then(res => {
 
     wc.classList.toggle('custom-styles', isCustomized);
 
-    htmlSrcEl.innerHTML = sourceTemplate(slotTemplate, isCustomized ? ' class="custom-styles" pip-button-title="Picture-In-Picture"' : '');
+    htmlSrcEl.innerHTML = sourceTemplate(slotTemplate, isCustomized ? ' class="custom-styles" pip-button-title="Picture-in-Picture"' : '');
 
     window.hljs.highlightElement(htmlSrcEl);
   };
