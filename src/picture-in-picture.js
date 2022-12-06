@@ -11,7 +11,7 @@ template.innerHTML = html`
     :host([hidden]),
     [hidden],
     :host(:empty) {
-      display: none;
+      display: none !important;
     }
     .pip-button {
       position: absolute;
@@ -23,7 +23,7 @@ template.innerHTML = html`
   <slot id="videoSlot"></slot>
 
   <button type="button" part="pip-button" class="pip-button" hidden disabled>
-    <slot name="pip-button-label">Picture-In-Picture</slot>
+    <slot name="pip-button-label">Picture-in-Picture</slot>
   </button>
 `;
 
