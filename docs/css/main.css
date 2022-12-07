@@ -1,13 +1,21 @@
 :root {
   --body-max-width: 700px;
+  --error-color: #f53939;
 }
 
-#console:empty {
+@media (prefers-color-scheme: dark) {
+  :root {
+    --error-color: #fd7878;
+  }
+}
+
+.not-supported-error {
+  color: var(--error-color);
+  margin-bottom: 1rem;
+}
+
+.not-supported-error:empty {
   display: none;
-}
-
-#console {
-  max-height: 300px;
 }
 
 picture-in-picture {

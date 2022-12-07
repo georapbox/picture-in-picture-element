@@ -1,5 +1,11 @@
 const isLocalhost = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost');
-const componentUrl = isLocalhost ? '../../dist/picture-in-picture.js' : 'https://unpkg.com/@georapbox/picture-in-picture-element';
+const componentUrl = isLocalhost ? '../../dist/picture-in-picture-defined.js' : 'https://unpkg.com/@georapbox/picture-in-picture-element/dist/picture-in-picture-defined.js';
+
+const errorEl = document.getElementById('error');
+
+if (!('pictureInPictureEnabled' in document)) {
+  errorEl.textContent = 'Picture-in-Picture API is not supported by your browser.';
+}
 
 const escapeHTML = subjectString => {
   if (typeof subjectString !== 'string') {
@@ -27,46 +33,42 @@ const htmlSrcEl = document.getElementById('html-source');
 
 const sourceTemplate = (slot = '', attrs = '') => escapeHTML(`<picture-in-picture${attrs}>${slot}</picture-in-picture>`);
 
-htmlSrcEl.innerHTML = sourceTemplate('', ' class="custom-styles"');
+const wc = document.querySelector('picture-in-picture');
 
-import(componentUrl).then(res => {
-  const { PictureInPicture } = res;
+const renderElement = (isCustomized = true) => {
+  let slotTemplate = '';
+  const videoContent = '\n  <video src="assets/bigbuckbunny.mp4" controls></video>\n';
+  const slotContent = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M8 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-3z"/></svg>`;
 
-  PictureInPicture.defineCustomElement();
+  if (isCustomized) {
+    slotTemplate = `${videoContent}  <span slot="pip-button-label">\n    ${slotContent}\n  </span>\n`;
 
-  const wc = document.querySelector('picture-in-picture');
+    const span = document.createElement('span');
+    span.slot = 'pip-button-label';
+    span.innerHTML = slotContent;
+    wc.setAttribute('pip-button-title', 'Picture-in-Picture');
+    wc.appendChild(span);
+  } else {
+    slotTemplate = videoContent;
+    wc.removeAttribute('pip-button-title');
+    wc.removeAttribute('class');
+    const slotEl = wc.querySelector('span[slot="pip-button-label"]');
 
-  const renderElement = (isCustomized = true) => {
-    let slotTemplate = '';
-    const videoContent = '\n  <video src="assets/bigbuckbunny.mp4" controls></video>\n';
-    const slotContent = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M8 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-3z"/></svg>`;
-
-    if (isCustomized) {
-      slotTemplate = `${videoContent}  <span slot="pip-button-label">\n    ${slotContent}\n  </span>\n`;
-
-      const span = document.createElement('span');
-      span.slot = 'pip-button-label';
-      span.innerHTML = slotContent;
-      wc.setAttribute('pip-button-title', 'Picture-in-Picture');
-      wc.appendChild(span);
-    } else {
-      slotTemplate = videoContent;
-      wc.removeAttribute('pip-button-title');
-      wc.removeAttribute('class');
-      const slotEl = wc.querySelector('span[slot="pip-button-label"]');
-
-      if (slotEl) {
-        slotEl.remove();
-      }
+    if (slotEl) {
+      slotEl.remove();
     }
+  }
 
-    wc.classList.toggle('custom-styles', isCustomized);
+  wc.classList.toggle('custom-styles', isCustomized);
 
-    htmlSrcEl.innerHTML = sourceTemplate(slotTemplate, isCustomized ? ' class="custom-styles" pip-button-title="Picture-in-Picture"' : '');
+  htmlSrcEl.innerHTML = sourceTemplate(slotTemplate, isCustomized ? ' class="custom-styles" pip-button-title="Picture-in-Picture"' : '');
 
-    window.hljs.highlightElement(htmlSrcEl);
-  };
+  window.hljs.highlightElement(htmlSrcEl);
+};
 
+renderElement(customizeCheckbox.checked);
+
+import(componentUrl).then(() => {
   document.addEventListener('picture-in-picture:enter', evt => {
     console.log('picture-in-picture:enter ->', evt.detail);
   });
@@ -86,8 +88,7 @@ import(componentUrl).then(res => {
   customizeCheckbox.addEventListener('change', evt => {
     renderElement(evt.target.checked);
   });
-
-  renderElement(customizeCheckbox.checked);
 }).catch(err => {
   console.error(err);
+  errorEl.textContent = 'Failed to fetch picture-in-picture component.';
 });
