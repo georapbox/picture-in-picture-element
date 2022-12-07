@@ -67,7 +67,7 @@ describe('<picture-in-picture>', () => {
     expect(pipButton).not.to.have.attr('title');
   });
 
-  it('displays pip button if picture-in-picture API is supported, otherwise not', async () => {
+  it('the pip button is visible if picture-in-picture API is supported, otherwise it remains hidden', async () => {
     const el = await fixture(html`
       <picture-in-picture>
         <video src="" controls></video>

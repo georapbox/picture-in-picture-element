@@ -5,7 +5,7 @@ const html = String.raw;
 template.innerHTML = html`
   <style>
     :host {
-      display: inline-flex;
+      display: inline-block;
       position: relative;
     }
     :host([hidden]),
