@@ -1,5 +1,5 @@
 const isLocalhost = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost');
-const componentUrl = isLocalhost ? '../../dist/picture-in-picture-defined.js' : 'https://unpkg.com/@georapbox/picture-in-picture-element/dist/picture-in-picture-defined.js';
+const componentUrl = isLocalhost ? '../../dist/picture-in-picture-defined.js' : '../lib/picture-in-picture-defined.js';
 
 const errorEl = document.getElementById('error');
 
