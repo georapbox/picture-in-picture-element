@@ -43,7 +43,7 @@
     "build:parcel": "parcel build",
     "build": "npm-run-all clean build:parcel",
     "clean": "rimraf dist coverage .parcel-cache",
-    "prepare": "npm-run-all clean lint test build"
+    "prepublishOnly": "npm-run-all clean lint test build"
   },
   "keywords": [
     "custom element",
